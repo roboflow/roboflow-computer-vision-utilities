@@ -1,0 +1,11 @@
+{
+    "__comment1": "Obtain these values via Roboflow",
+    "ROBOFLOW_API_KEY": "xx-private-api-key",
+    "ROBOFLOW_WORKSPACE_ID": "xx-workspace-id",
+    "ROBOFLOW_MODEL_ID": "xx-model-id",
+    "ROBOFLOW_VERSION_NUMBER": "#",
+
+    "__comment2": "The following are only needed for infer-async.py",
+    "FRAMERATE": 24,
+    "BUFFER": 0.5
+}
