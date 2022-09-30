@@ -7,8 +7,7 @@ Interface with the Roboflow API and Python package for running inference (receiv
 ## [Website](https://docs.roboflow.com/python) • [Docs](https://docs.roboflow.com) • [Blog](https://blog.roboflow.com) • [Twitter](https://twitter.com/roboflow) • [Linkedin](https://www.linkedin.com/company/roboflow-ai) • [Roboflow Universe](https://universe.roboflow.com) • [Knowledge Base](https://help.roboflow.com)
 
 # What is Roboflow?
-## **Roboflow** makes managing, preprocessing, augmenting, and versioning datasets for computer vision seamless. This repo utilizes
-## the official [Roboflow python package](https://docs.roboflow.com/python) that interfaces with the [Roboflow API](https://docs.roboflow.com/inference/hosted-api). Key features of Roboflow:
+## **Roboflow** makes managing, preprocessing, augmenting, and versioning datasets for computer vision seamless. This repo utilizes the official [Roboflow python package](https://docs.roboflow.com/python) that interfaces with the [Roboflow API](https://docs.roboflow.com/inference/hosted-api). Key features of Roboflow:
 
 - Import and Export image datasets into any supported [formats](https://roboflow.com/formats)
 - [Preprocess](https://docs.roboflow.com/image-transformations/image-preprocessing)
