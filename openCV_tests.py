@@ -5,7 +5,7 @@ import io
 from PIL import Image
 from roboflow import Roboflow
 
-rf = Roboflow(api_key="GSOqnR22oG2hR5IvxPXO")
+rf = Roboflow(api_key="API_KEY")
 project = rf.workspace().project("face-detection-mik1i")
 model = project.version(7).model
 
