@@ -19,3 +19,6 @@ tqdm>=4.41.0
 PyYAML>=5.3.1
 wget
 requests_toolbelt
+pandas
+opencv-python-headless
+streamlit
