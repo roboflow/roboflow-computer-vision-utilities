@@ -26,6 +26,11 @@ version = project.version(ROBOFLOW_VERSION_NUMBER)
 dataset = version.download(ANNOTATION_FORMAT)
 model = version.model
 
+difference_threshold = 1
+
+cwd = os.getcwd()
+prediction_dir = cwd + "/Predictions/"
+
 # set model ID and split it
 projectID = model.id
 projectID_split = projectID.split("/")
@@ -53,12 +58,15 @@ with open(dataset_path+'config.json', 'w') as json_file:
 with open(dataset_path+'config.json', 'r') as f:
     json_file = json.load(f)
 
+box_color = (0, 200, 0)
+box_thickness = 3 
+box_scale = 4
 
 # field names
-fields = ['image_url', 'difference_count','ground_truth_count', 'prediction_count', 'prediction_confidence'] 
+fields = ['image_url', 'local_path', 'label_count_difference','ground_truth_label_count', 'model_label_count', 'pred_confidence'] 
 
 # name of csv file 
-filename = str(folderName) + "-Test.csv"
+filename = "Annotation_Model_Test.csv"
 
 # writing to csv file 
 with open(filename, 'w') as csvfile: 
@@ -77,7 +85,23 @@ for folders in get_folders:
     if "." in folders:
         pass
     else:
-        print(folders)
+        
+        folder_split = folders.split("\\")
+
+        # print(folder_split[1])
+
+        # print("Current working directory: {0}".format(cwd))
+
+        try:
+            os.mkdir(prediction_dir)
+        except:
+            pass
+
+        try:
+            os.mkdir(prediction_dir+folder_split[1])
+        except:
+            pass
+
         image_count = 0
 
         # grab all the .jpg files
@@ -90,6 +114,14 @@ for folders in get_folders:
 
         # loop through all the images in the current folder
         for images in get_images:
+            
+            image_clean = cv2.imread(images)
+
+            dimensions = image_clean.shape
+
+            # get image dimensions
+            image_width = dimensions[1]
+            image_height = dimensions[0]
 
             # split the image path to grad the hash
             image_hash_split = images.split(".")
@@ -100,6 +132,41 @@ for folders in get_folders:
 
             # get the current annotation that matchs current index for the current image we are on (note: this will not work if dataset contains null photos)
             current_annotation = get_annotations[image_count]
+
+            currentLabel = open(current_annotation, "r")
+        
+            Lines = currentLabel.readlines()
+
+            # print(Lines)
+
+            # loop through all the lines in the annotation file
+            for line in Lines:
+            
+                split = line.split(' ')
+
+                # print(split[0])
+
+                gt_center_x = float(split[1])*image_width
+                gt_center_y = float(split[2])*image_height
+                gt_width = float(split[3])*image_width
+                gt_height = float(split[4])*image_height
+
+                gt_x0 = gt_center_x - (gt_width / 2)
+                gt_y0 = gt_center_y - (gt_height / 2)
+                gt_x1 = gt_center_x + (gt_width / 2)
+                gt_y1 = gt_center_y + (gt_height / 2)
+
+                gt_box = (gt_x0, gt_y0, gt_x1, gt_y1)
+
+                gt_box_start_point = (int(gt_x0), int(gt_y0))
+                # print(gt_box_start_point)
+                gt_box_end_point = (int(gt_x1), int(gt_y1))
+                # print(gt_box_end_point)
+
+                gt_box_color = (0, 0, 200)
+
+                # draw ground truth boxes
+                image_drawn = cv2.rectangle(image_clean, gt_box_start_point, gt_box_end_point, gt_box_color, box_thickness)
 
             # split the image path to grad the hash
             annotation_hash_split = current_annotation.split(".")
@@ -131,9 +198,22 @@ for folders in get_folders:
                     predicted_name = objects['class']
                     confidence = objects['confidence']
 
+                    x0 = objects['x'] - objects['width'] / 2
+                    y0 = objects['y'] - objects['height'] / 2
+                    x1 = objects['x'] + objects['width'] / 2
+                    y1 = objects['y'] + objects['height'] / 2
+                    box = (x0, y0, x1, y1)
+
+                    box_start_point = (int(x0), int(y0))
+                    # print(box_start_point)
+                    box_end_point = (int(x1), int(y1))
+                    # print(box_end_point)
+
                     # append to respective array
                     class_prediction_array.append(predicted_name)
                     confidence_prediction_array.append(confidence)
+
+                    image_drawn = cv2.rectangle(image_drawn, box_start_point, box_end_point, box_color, box_thickness)
 
                 # open corrisponding annotation file and grab all the annotation objects
                 with open(current_annotation) as f:
@@ -155,23 +235,36 @@ for folders in get_folders:
             numberOfPredictions = len(class_prediction_array)
             numberOfAnnotations = len(class_annotation_array)
             numberOfDifferences = abs(numberOfPredictions - numberOfAnnotations)
+
             try:
                 minConfidence = min(confidence_prediction_array)
             except:
                 pass
             
+            if numberOfDifferences >= difference_threshold:  
+                cv2.imwrite(prediction_dir + folder_split[1] + "/" + image_hash + ".jpg", image_drawn)
+                local_path = str(prediction_dir + folder_split[1] + "/" + image_hash + ".jpg")
+                print()
+                print("FAILED - IMAGE WROTE: " + local_path)
+            else:
+                local_path = "PASSED THRESHOLD"
+                print()
+                print(local_path)
+            
             # isolate unique names for future quality checking
             uniqueClasses = set(class_annotation_array)
 
             # print number of predictions vs ground truth (log to CSV)
+            print()
             print("Roboflow URL: " + roboflow_image_url + " | Number of Differences: " + str(numberOfDifferences) + " | Number of predictions: " + str(numberOfPredictions) + " | Number of Annotations: " + str(numberOfAnnotations) + " | Minumum Confidence: " + str(minConfidence))
-            
+            print()
+
             # name of csv file 
-            csv_filename = filename
+            csv_filename = "Annotation_Model_Test.csv"
 
             # Dictionary
-            dict = {"image_url":str(roboflow_image_url), "difference_count":str(numberOfDifferences), "ground_truth_count":str(numberOfAnnotations),"prediction_count":str(numberOfPredictions), "prediction_confidence":str(minConfidence)}
-    
+            dict = {"image_url":str(roboflow_image_url), "local_path":str(local_path), "label_count_difference":str(numberOfDifferences), "ground_truth_label_count":str(numberOfAnnotations),"model_label_count":str(numberOfPredictions), "pred_confidence":str(minConfidence)}
+
             # writing to csv file 
             with open(csv_filename, 'a') as csvfile: 
                 # creating a csv writer object 
@@ -187,8 +280,7 @@ for folders in get_folders:
 
 with open(csv_filename) as csvfile:
     spamreader = csv.DictReader(csvfile, delimiter=",")
-    sortedlist = sorted(spamreader, key=lambda row:(row['prediction_confidence']), reverse=False)
-    sortedlist = sorted(sortedlist, key=lambda row:(row['difference_count']), reverse=True)
+    sortedlist = sorted(spamreader, key=lambda row:(row['label_count_difference'], row['pred_confidence']), reverse=True)
 
 with open(csv_filename, 'w') as f:
     writer = csv.DictWriter(f, fieldnames=fields)
@@ -198,6 +290,3 @@ with open(csv_filename, 'w') as f:
 
 df = pd.read_csv(csv_filename)
 df.to_csv(csv_filename, index=False)
-
-
-
