@@ -28,10 +28,16 @@ Interface with the Roboflow API and Python package for running inference (receiv
 # GitHub Repo Structure:
 * The `Images` directory contains necessary code for running inference (model predictions) on individual images, and folders (directories) of images
 * `predictionUtils.py` is written in an Object-Oriented Programming framework, and contains necessary code for interacting with `Images.py` for saving [customized] images from inference results.
+* `twoPass.py`: Code for running inference (model predictions) in "two stages" on images.
+  * Ex. Stage 1: object detection (find faces) --> crop the detected areas and send to --> Stage 2: classification (is this a real image or illustrated?)
+  * Available in `roboflow-computer-vision-utilities/images`
+* `webcam_od.py`: Code for running inference (model predictions) with Object Detection models on webcam feeds
+  * Available in `roboflow-computer-vision-utilities/webcam`
+* `webcam_classification.py`: Code for running inference (model predictions) with Classification models on webcam feeds
+  * Available in `roboflow-computer-vision-utilities/webcam`
 
 [In Progress]:
 * `Video.py`: Code for running inference (model predictions) on local video files
-* `Webcam.py`: Code for running inference (model predictions) on webcam feeds
 
 ## Installation (Dependencies):
 
