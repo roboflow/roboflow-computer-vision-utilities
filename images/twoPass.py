@@ -92,6 +92,7 @@ def cropBoxes(model1, model2, img_path, printJson = True, save_img = True, confi
     
     # runs if there is only 1 image file in the ./inference_images directory
     elif os.path.isfile(img_path):
+        crop_number = 0
         img = cv2.imread(img_path)
         # perform inference on the selected image
         predictions = model.predict(img_path, confidence=confidence,
