@@ -12,8 +12,8 @@ with open('../roboflow_config.json') as f:
 
     ROBOFLOW_API_KEY = config["ROBOFLOW_API_KEY"]
     ROBOFLOW_SIZE = config["ROBOFLOW_SIZE"]
-    ROBOFLOW_MODEL_ID = "photo-type-classification"
-    ROBOFLOW_VERSION_NUMBER = "5"
+    ROBOFLOW_MODEL_ID = config["ROBOFLOW_MODEL_ID"]
+    ROBOFLOW_VERSION_NUMBER = config["ROBOFLOW_VERSION_NUMBER"]
 
     FRAMERATE = config["FRAMERATE"]
     BUFFER = config["BUFFER"]
@@ -57,12 +57,12 @@ def infer():
     # Add predictions (class label and confidence score) to image
     (text_width, text_height), _ = cv2.getTextSize(
         f"{predictions['top']} Confidence: {predictions['confidence']}",
-        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, thickness=2)
+        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.6, thickness=2)
     
     text_location = (5, text_height)
     
     cv2.putText(img, f"{predictions['top']} | Confidence: {predictions['confidence']}",
-                text_location, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8,
+                text_location, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.6,
                 color=(255,255,255), thickness=2)   
 
     return img, predictions
