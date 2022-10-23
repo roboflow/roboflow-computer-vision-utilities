@@ -124,6 +124,7 @@ def cropBoxes(model1, model2, img_path, printJson = True, save_img = True, confi
                 cv2.imwrite(save_loc, croppedArea)
 
                 print(f'Success! First Pass (object detection) saved to {save_loc}')
+                crop_number+=1
 
             if printJson:
                 print(f'\n{bounding_box}')
