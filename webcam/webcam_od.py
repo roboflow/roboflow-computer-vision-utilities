@@ -1,6 +1,12 @@
-# load config
 import json
+import cv2
+import base64
+import numpy as np
+import requests
+import time
 
+
+# load config
 with open('../roboflow_config.json') as f:
     config = json.load(f)
 
@@ -11,12 +17,6 @@ with open('../roboflow_config.json') as f:
 
     FRAMERATE = config["FRAMERATE"]
     BUFFER = config["BUFFER"]
-
-import cv2
-import base64
-import numpy as np
-import requests
-import time
 
 # Construct the Roboflow Infer URL
 # obtaining your API key: https://docs.roboflow.com/rest-api#obtaining-your-api-key
@@ -60,8 +60,8 @@ def infer():
     # Parse result image
     # image = np.asarray(bytearray(resp.read()), dtype="uint8")
     # image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-    # Add predictions (bounding box, class label and confidence score) to image
 
+    # Add predictions (bounding box, class label and confidence score) to image
     for bounding_box in detections:
         x0 = bounding_box['x'] - bounding_box['width'] / 2
         x1 = bounding_box['x'] + bounding_box['width'] / 2
