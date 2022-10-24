@@ -25,6 +25,18 @@ Interface with the Roboflow API and Python package for running inference (receiv
 # Business Projects and POC's - Requesting Additional Account Features:
 * https://roboflow.com/sales
 
+## Before Running the Scripts (Install Dependencies):
+## Installation (Dependencies):
+To install the Python packages, please use `Python 3.6` or higher.
+Install from Source:
+```
+git clone https://github.com/roboflow-ai/roboflow-computer-vision-utilities.git
+cd roboflow-computer-vision-utilities
+python3 -m venv env
+source env/bin/activate 
+pip3 install -r requirements.txt
+```
+
 # GitHub Repo Structure:
 * The `Images` directory contains necessary code for running inference (model predictions) on individual images, and folders (directories) of images
 * `predictionUtils.py` is written in an Object-Oriented Programming framework, and contains necessary code for interacting with `Images.py` for saving [customized] images from inference results.
@@ -71,6 +83,8 @@ python3 twoPass.py
 * `webcam_od.py`: Code for running inference (model predictions) with Object Detection models on webcam feeds
 ```
 cd webcam
+# note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
+# if it fails to find your webcam/camera device
 python3 webcam_od.py
 ```
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
@@ -78,6 +92,8 @@ python3 webcam_od.py
 * `webcam_classification.py`: Code for running inference (model predictions) with Classification models on webcam feeds
 ```
 cd webcam
+# note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
+# if it fails to find your webcam/camera device
 python3 webcam_classification.py
 ```
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
@@ -88,21 +104,6 @@ python3 webcam_classification.py
 * `sendText.py`: Code for running inference (model predictions) and sending a text message when a specified detection type is made
 * `sendNotification.py`: Code for running inference (model predictions) and sending a notification to a smartphone when a specified detection type is made
 * `playSound.py`: Code for running inference (model predictions) and playing a sound when a specified detection type is made
-
-## Installation (Dependencies):
-
-To install the Python package, please use `Python 3.6` or higher. We provide three different ways to install the Roboflow
-package to use within your own projects.
-
-Install from Source:
-
-```
-git clone https://github.com/roboflow-ai/roboflow-computer-vision-utilities.git
-cd roboflow-computer-vision-utilities
-python3 -m venv env
-source env/bin/activate 
-pip3 install -r requirements.txt
-```
 
 ## [Obtaining Your API Key](https://docs.roboflow.com/rest-api#obtaining-your-api-key) | [Locating Project Information](https://docs.roboflow.com/python#finding-your-project-information-manually)
 
