@@ -25,21 +25,10 @@ Interface with the Roboflow API and Python package for running inference (receiv
 # Business Projects and POC's - Requesting Additional Account Features:
 * https://roboflow.com/sales
 
-# GitHub Repo Structure:
-* The `Images` directory contains necessary code for running inference (model predictions) on individual images, and folders (directories) of images
-* `predictionUtils.py` is written in an Object-Oriented Programming framework, and contains necessary code for interacting with `Images.py` for saving [customized] images from inference results.
-
-[In Progress]:
-* `Video.py`: Code for running inference (model predictions) on local video files
-* `Webcam.py`: Code for running inference (model predictions) on webcam feeds
-
+## Before Running the Scripts (Install Dependencies):
 ## Installation (Dependencies):
-
-To install the Python package, please use `Python 3.6` or higher. We provide three different ways to install the Roboflow
-package to use within your own projects.
-
+To install the Python packages, please use `Python 3.6` or higher.
 Install from Source:
-
 ```
 git clone https://github.com/roboflow-ai/roboflow-computer-vision-utilities.git
 cd roboflow-computer-vision-utilities
@@ -47,6 +36,74 @@ python3 -m venv env
 source env/bin/activate 
 pip3 install -r requirements.txt
 ```
+
+# GitHub Repo Structure:
+* The `Images` directory contains necessary code for running inference (model predictions) on individual images, and folders (directories) of images
+* `predictionUtils.py` is written in an Object-Oriented Programming framework, and contains necessary code for interacting with `Images.py` for saving [customized] images from inference results.
+* cropBoxes.py: crop the area within predicted bounding boxes and save the results
+```
+# default root save location: './inference_images'
+# default confidence and overelap for predictions: confidence = 40, overlap = 30
+cd images
+python3 cropBoxes.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/images`
+  * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
+* fillBoxes.py: fill in (obscure) the area within predicted bounding boxes and save the results
+```
+# default root save location: './inference_images'
+# default confidence and overelap for predictions: confidence = 40, overlap = 30
+cd images
+python3 fillBoxes.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/images`
+  * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
+* blurBoxes.py: blur the area within predicted bounding boxes and save the results - good for those wanting to make face detection models with privacy filters, for example
+```
+# default root save location: './inference_images'
+# default confidence and overelap for predictions: confidence = 40, overlap = 30
+cd images
+python3 blurBoxes.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/images`
+  * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
+* `twoPass.py`: Code for running inference (model predictions) in "two stages" on images.
+```
+# default root save location: './inference_images'
+# also moves all images in /roboflow-computer-vision-utilities to /roboflow-computer-vision-utilities/inference_images before inferrence
+cd images
+python3 twoPass.py
+```
+  * Ex. Stage 1: object detection (find faces) --> crop the detected areas and send to --> Stage 2: classification (is this a real image or illustrated?)
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/images`
+* `webcam_od.py`: Code for running inference (model predictions) with Object Detection models on webcam feeds
+```
+cd webcam
+# note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
+# if it fails to find your webcam/camera device
+python3 webcam_od.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/webcam`
+* `webcam_classification.py`: Code for running inference (model predictions) with Classification models on webcam feeds
+```
+cd webcam
+# note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
+# if it fails to find your webcam/camera device
+python3 webcam_classification.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
+  * Available in `roboflow-computer-vision-utilities/webcam`
+
+[In Progress]:
+* `Video.py`: Code for running inference (model predictions) on local video files
+* `sendText.py`: Code for running inference (model predictions) and sending a text message when a specified detection type is made
+* `sendNotification.py`: Code for running inference (model predictions) and sending a notification to a smartphone when a specified detection type is made
+* `playSound.py`: Code for running inference (model predictions) and playing a sound when a specified detection type is made
 
 ## [Obtaining Your API Key](https://docs.roboflow.com/rest-api#obtaining-your-api-key) | [Locating Project Information](https://docs.roboflow.com/python#finding-your-project-information-manually)
 
