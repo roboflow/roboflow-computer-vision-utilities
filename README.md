@@ -27,7 +27,7 @@ Interface with the Roboflow API and Python package for running inference (receiv
 
 ## Before Running the Scripts (Install Dependencies):
 ## Installation (Dependencies):
-To install the Python packages, please use `Python 3.6` or higher.
+To install the Python packages, please use a Python version between `Python 3.6` and `Python 3.8`.
 Install from Source:
 ```
 git clone https://github.com/roboflow-ai/roboflow-computer-vision-utilities.git
@@ -40,7 +40,8 @@ pip3 install -r requirements.txt
 # GitHub Repo Structure:
 * The `Images` directory contains necessary code for running inference (model predictions) on individual images, and folders (directories) of images
 * `predictionUtils.py` is written in an Object-Oriented Programming framework, and contains necessary code for interacting with `Images.py` for saving [customized] images from inference results.
-* cropBoxes.py: crop the area within predicted bounding boxes and save the results
+
+`cropBoxes.py`: crop the area within predicted bounding boxes and save the results
 ```
 # default root save location: './inference_images'
 # default confidence and overelap for predictions: confidence = 40, overlap = 30
@@ -50,7 +51,8 @@ python3 cropBoxes.py
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
   * Available in `roboflow-computer-vision-utilities/images`
   * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
-* fillBoxes.py: fill in (obscure) the area within predicted bounding boxes and save the results
+
+`fillBoxes.py`: fill in (obscure) the area within predicted bounding boxes and save the results
 ```
 # default root save location: './inference_images'
 # default confidence and overelap for predictions: confidence = 40, overlap = 30
@@ -60,7 +62,8 @@ python3 fillBoxes.py
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
   * Available in `roboflow-computer-vision-utilities/images`
   * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
-* blurBoxes.py: blur the area within predicted bounding boxes and save the results - good for those wanting to make face detection models with privacy filters, for example
+
+`blurBoxes.py`: blur the area within predicted bounding boxes and save the results - good for those wanting to make face detection models with privacy filters, for example
 ```
 # default root save location: './inference_images'
 # default confidence and overelap for predictions: confidence = 40, overlap = 30
@@ -70,7 +73,8 @@ python3 blurBoxes.py
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
   * Available in `roboflow-computer-vision-utilities/images`
   * `./inference_images` can be left "as-is" if desired, as the script creates this directory to organize inference results
-* `twoPass.py`: Code for running inference (model predictions) in "two stages" on images.
+
+`twoPass.py`: Code for running inference (model predictions) in "two stages" on images.
 ```
 # default root save location: './inference_images'
 # also moves all images in /roboflow-computer-vision-utilities to /roboflow-computer-vision-utilities/inference_images before inferrence
@@ -80,7 +84,17 @@ python3 twoPass.py
   * Ex. Stage 1: object detection (find faces) --> crop the detected areas and send to --> Stage 2: classification (is this a real image or illustrated?)
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
   * Available in `roboflow-computer-vision-utilities/images`
-* `webcam_od.py`: Code for running inference (model predictions) with Object Detection models on webcam feeds
+
+`trigger_power_automate.py`: make predictions on images, save the results, and send an email to the email specified in `roboflow_config.json`
+```
+# default confidence and overlap for predictions: confidence = 40, overlap = 30
+cd images
+python3 trigger_power_automate.py
+```
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number), and email address to send the inference results to
+  * Available in `roboflow-computer-vision-utilities/images`
+
+`webcam_od.py`: Code for running inference (model predictions) with Object Detection models on webcam feeds
 ```
 cd webcam
 # note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
@@ -89,7 +103,8 @@ python3 webcam_od.py
 ```
   * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number)
   * Available in `roboflow-computer-vision-utilities/webcam`
-* `webcam_classification.py`: Code for running inference (model predictions) with Classification models on webcam feeds
+
+`webcam_classification.py`: Code for running inference (model predictions) with Classification models on webcam feeds
 ```
 cd webcam
 # note: update cv2.VideoCapture(0) in the script to cv2.VideoCapture(1) or cv2.VideoCapture(2)
