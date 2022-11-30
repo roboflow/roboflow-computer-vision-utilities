@@ -49,7 +49,7 @@ def cropBoxes(model1, model2, img_path, printJson = True, save_img = True, confi
     # for a directory (folder) of images
     if os.path.isdir(img_path):
         raw_data_location = img_path
-        for raw_data_ext in ['.jpg', '.jpeg', 'png']:
+        for raw_data_ext in ['.jpg', '.jpeg', '.png']:
             globbed_files = glob.glob(raw_data_location + '/*' + raw_data_ext)
             for img_file in globbed_files:
                 crop_number = 0
@@ -173,7 +173,7 @@ if os.path.exists(os.curdir + '/inference_images') is False:
 if os.path.exists(os.curdir + '/inference_images/inferred') is False:
     os.mkdir(os.curdir + '/inference_images/inferred')
 
-for raw_data_ext in ['.jpg', '.jpeg', 'png']:
+for raw_data_ext in ['.jpg', '.jpeg', '.png']:
     globbed_files = glob.glob(os.curdir + '/*' + raw_data_ext)
     for img_file in globbed_files:
         shutil.move(img_file, os.curdir + '/inference_images')
