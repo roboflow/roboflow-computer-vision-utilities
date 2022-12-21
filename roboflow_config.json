@@ -4,6 +4,7 @@
     "ROBOFLOW_WORKSPACE_ID": "xx-workspace-id",
     "ROBOFLOW_MODEL_ID": "xx-model-id",
     "ROBOFLOW_VERSION_NUMBER": "#",
+    "ROBOFLOW_SIZE": "640",
     "EMAIL": "your@email.com",
 
     "__comment2": "The following are only needed for infer-async.py",
