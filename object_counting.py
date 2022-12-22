@@ -19,7 +19,13 @@ def count_objects(predictions, target_classes):
         elif prediction['class'] not in target_classes:
             object_counts[prediction['class']] = 1
 
-    return object_counts
+    present_objects = object_counts.copy()
+
+    for i in object_counts:
+        if object_counts[i] < 1:
+            present_objects.pop(i)
+
+    return present_objects
 
 
 ## load config file for the models
