@@ -52,6 +52,7 @@ pip3 install -r requirements.txt
 | Fill Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/fill_img.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/video/fill_vid.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/stream/fill_stream.py) |
 | Crop Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/crop_img.py) | | |
 | Blur Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/blur_img.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/video/blur_video.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/stream/blur_stream.py) |
+| Two Stage Detection | <p style="font-size: 8px">Object Detection -> Crop Bounding Box -> Single-Label Classification</p> [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/twoPass.py) | | |
 | Object Counting | [![GitHub](https://badges.aleen42.com/src/github.svg)](/object_counting.py) <a href="https://blog.roboflow.com/no-code-computer-vision-zapier/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Documentation (Object Counting)" /></a> | | |
 | Measure Object | [![GitHub](https://badges.aleen42.com/src/github.svg)](/measureObject.py) <a href="https://blog.roboflow.com/computer-vision-measure-distance/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog (Measure Object)" /></a> | | |
 | Send Email | [![GitHub](https://badges.aleen42.com/src/github.svg)](/email/send_email.py) <a href="https://blog.roboflow.com/object-detection-jetson-nano-python/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog (Send Email)" /></a> | | |
@@ -72,8 +73,8 @@ pip3 install -r requirements.txt
 
 [![GitHub](https://badges.aleen42.com/src/github.svg)](/save_vidframes.py)
 
-#### 💻 🛜 API:
-Upload Images to Dataset Split (Train/Valid/Test)
+## 💻 🛜 API Utilities:
+#### Upload Images to a Specified Dataset Split (Train/Valid/Test)
 
 [![GitHub](https://badges.aleen42.com/src/github.svg)](/api/uploadby_split.py)
 * Upload images from a directory (folder) to a specified dataset split [(train, valid, or test set)](https://blog.roboflow.com/train-test-split/) in your Roboflow project.
@@ -134,8 +135,7 @@ python3 twoPass.py
 cd images
 python3 trigger_power_automate.py
 ```
-  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number), and email address to send the inference results to
-  * Available in `roboflow-computer-vision-utilities/images`
+  * To be used after updating the `roboflow_config.json` file in the main directory with your Model Info (Workpsace ID, Model/Project ID, Private API Key and Model Version Number), and email address to send the inference results to.
 
 ## Streamlit App for Testing Roboflow Object Detection Models
 
