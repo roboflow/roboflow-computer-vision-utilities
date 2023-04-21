@@ -1,0 +1,13 @@
+{
+    "ROBOFLOW_API_KEY": "API_KEY",
+    "ROBOFLOW_MODEL": "package_detection-x2qlm/1",
+    "ROBOFLOW_SIZE": 640,
+
+    "simplegmail_config": {
+        "to": "EMAIL_TO",
+        "sender": "EMAIL_FROM",
+        "subject": "Alert! Your Model has Detected Objects of Interest!",
+        "msg_html": "<h3>Hey [Name]], your alert was triggered.</h3><br />Check out the attached image ASAP.",
+        "attachments": ["overlayed_image.jpg", "raw_image.jpg"]
+    }
+}

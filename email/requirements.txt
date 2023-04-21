@@ -20,6 +20,4 @@ PyYAML>=5.3.1
 requests_toolbelt
 pandas
 opencv-python-headless
-streamlit
-#twilio
-#simplegmail
+simplegmail

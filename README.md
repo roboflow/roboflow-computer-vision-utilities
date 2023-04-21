@@ -4,10 +4,12 @@ Interface with the Roboflow API and Python package for running inference (receiv
 ![Roboflow Logo](/figures/roboflow-cv-utilities-header.png)
 
 ![Contact Us!](https://i.imgur.com/rBmXoQ1.png)
-#### [Website](https://docs.roboflow.com/python) • [Docs](https://docs.roboflow.com) • [Blog](https://blog.roboflow.com) • [Twitter](https://twitter.com/roboflow) • [Linkedin](https://www.linkedin.com/company/roboflow-ai) • [Roboflow Universe](https://universe.roboflow.com) • [Knowledge Base](https://help.roboflow.com)
+#### [Website](https://docs.roboflow.com/python) • [Docs](https://docs.roboflow.com) • [Blog](https://blog.roboflow.com) • [Community Forum](https://discuss.roboflow.com) • [Twitter](https://twitter.com/roboflow) • [Linkedin](https://www.linkedin.com/company/roboflow-ai) • [Roboflow Universe](https://universe.roboflow.com) • [Knowledge Base](https://help.roboflow.com)
 
 ## What is Roboflow?
-**Roboflow** makes managing, preprocessing, augmenting, and versioning datasets for computer vision seamless. This repo utilizes the official [Roboflow python package](https://docs.roboflow.com/python) that interfaces with the [Roboflow API](https://docs.roboflow.com/inference/hosted-api). Key features of Roboflow:
+**Roboflow** makes managing, preprocessing, augmenting, and versioning datasets for computer vision seamless. This repo utilizes the official [Roboflow Python SDK](https://docs.roboflow.com/python) that interfaces with the [Roboflow Hosted API Inference Server](https://docs.roboflow.com/inference/hosted-api) and [REST API](https://docs.roboflow.com/rest-api).
+
+Key features of Roboflow:
 
 - Import and Export image datasets into any supported [formats](https://roboflow.com/formats)
 - [Preprocess](https://docs.roboflow.com/image-transformations/image-preprocessing)
@@ -17,13 +19,17 @@ Interface with the Roboflow API and Python package for running inference (receiv
   to [production](https://docs.roboflow.com/inference)
 - Use [community curated projects](https://universe.roboflow.com/) to start building your own vision-powered products
 
-[Features & Workspace Plans](https://roboflow.com/pricing)
+[Available Plans & Features](https://roboflow.com/pricing)
 
 Personal and Research Projects - Applying for Additional Account Features:
 * https://roboflow.com/community
 
 Business Projects and POC's - Requesting Additional Account Features:
 * https://roboflow.com/sales
+
+Popular Repositories and Learning Resources:
+
+• [Roboflow Python SDK](https://github.com/notebooks) • [Notebooks](https://github.com/notebooks) (Custom Model Training Tutorials) • [Learn Computer Vision](https://roboflow.com/learn) • [Supervision](https://universe.roboflow.com) • [Polygon Zone](https://universe.roboflow.com) •
 
 #### Installation (Dependencies):
 Python Version: `3.10>=Python>=3.7`.
@@ -46,9 +52,10 @@ pip3 install -r requirements.txt
 | Fill Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/fill_img.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/video/fill_vid.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/stream/fill_stream.py) |
 | Crop Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/crop_img.py) | | |
 | Blur Boxes | [![GitHub](https://badges.aleen42.com/src/github.svg)](/images/blur_img.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/video/blur_video.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/stream/blur_stream.py) |
-| Object Counting | [![GitHub](https://badges.aleen42.com/src/github.svg)](/object_counting.py) <a href="https://blog.roboflow.com/no-code-computer-vision-zapier/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog" /></a> | | |
-| Measure Object | [![GitHub](https://badges.aleen42.com/src/github.svg)](/measureObject.py) <a href="https://blog.roboflow.com/no-code-computer-vision-zapier/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog" /></a> | | |
-| Send Email | [![GitHub](https://badges.aleen42.com/src/github.svg)](/trigger_power_automate.py) <a href="https://blog.roboflow.com/no-code-computer-vision-zapier/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog" /></a> | | |
+| Object Counting | [![GitHub](https://badges.aleen42.com/src/github.svg)](/object_counting.py) <a href="https://blog.roboflow.com/no-code-computer-vision-zapier/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Documentation (Object Counting)" /></a> | | |
+| Measure Object | [![GitHub](https://badges.aleen42.com/src/github.svg)](/measureObject.py) <a href="https://blog.roboflow.com/computer-vision-measure-distance/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog (Measure Object)" /></a> | | |
+| Send Email | [![GitHub](https://badges.aleen42.com/src/github.svg)](/email/send_email.py) <a href="https://blog.roboflow.com/object-detection-jetson-nano-python/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog (Send Email)" /></a> | | |
+| Send Text | [![GitHub](https://badges.aleen42.com/src/github.svg)](/text_message/send_text.py) <a href="https://blog.roboflow.com/computer-vision-twilio-notifications/" rel=""><img src="https://media.roboflow.com/notebooks/template/icons/purple/roboflow-app.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672949746649" width=15% alt="Roboflow Blog: Send Text" /></a> | | |
 
 #### Video Inference (Classification)
 * Model predictions for Classification models running via hosted or local deployment supported by Roboflow Deploy.
@@ -65,6 +72,16 @@ pip3 install -r requirements.txt
 
 [![GitHub](https://badges.aleen42.com/src/github.svg)](/save_vidframes.py)
 
+#### 💻 🛜 API:
+Upload Images to Dataset Split (Train/Valid/Test)
+
+[![GitHub](https://badges.aleen42.com/src/github.svg)](/api/uploadby_split.py)
+* Upload images from a directory (folder) to a specified dataset split [(train, valid, or test set)](https://blog.roboflow.com/train-test-split/) in your Roboflow project.
+* Base functionality also includes the ability to set a specific percentage of images to upload to the dataset from the specified directory, and the option to name the uploaded [dataset batch](https://docs.roboflow.com/annotate/collaborative-workflow)
+
+More on the Roboflow REST API: https://docs.roboflow.com/rest-api/
+
+
 ## 🔁 📈 Active Learning Utilities:
 Automate improvement of your dataset by using computer vision and conditional upload logic to determine which images should be directly uploaded to your Roboflow workspace.
 * [Active Learning](https://roboflow.com/python/active-learning) (Roboflow Documentation)
@@ -74,7 +91,7 @@ Automate improvement of your dataset by using computer vision and conditional up
 
 | **model type** | **images** | **video** |
 |:------------:|:-------------------------------------------------:|:---------------------------:|
-| Object Detection | [![GitHub](https://badges.aleen42.com/src/github.svg)](---) | [![GitHub](https://badges.aleen42.com/src/github.svg)](---) |
+| Object Detection | [![GitHub](https://badges.aleen42.com/src/github.svg)](/active_learning/images.py) | [![GitHub](https://badges.aleen42.com/src/github.svg)](/active_learning/video.py) |
 
 Conditionals - Source Code:
 
