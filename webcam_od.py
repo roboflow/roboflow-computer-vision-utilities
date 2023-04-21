@@ -75,8 +75,7 @@ def infer():
         start_point = (int(x0), int(y0))
         end_point = (int(x1), int(y1))
         # draw/place bounding boxes on image
-        # setting thickness to -1 --> filled bounding box with the specified color
-        cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=-1)
+        cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=2)
 
         (text_width, text_height), _ = cv2.getTextSize(
             f"{class_name} | {confidence}",

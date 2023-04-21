@@ -31,11 +31,22 @@ for bounding_box in predictions:
     # position coordinates: start = (x0, y0), end = (x1, y1)
     # color = RGB-value for bounding box color, (0,0,0) is "black"
     # thickness = stroke width/thickness of bounding box
-    start_point = (int(x0), int(y0))
-    end_point = (int(x1), int(y1))
+    box = [(x0, y0), (x1, y1)]
+    blur_x = int(bounding_box['x'] - bounding_box['width'] / 2)
+    blur_y = int(bounding_box['y'] - bounding_box['height'] / 2)
+    blur_width = int(bounding_box['width'])
+    blur_height = int(bounding_box['height'])
+    ## region of interest (ROI), or area to blur
+    roi = img[blur_y:blur_y+blur_height, blur_x:blur_x+blur_width]
 
-    # draw/place bounding boxes on image
-    cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=2)
+    # ADD BLURRED BBOXES
+    # set blur to (31,31) or (51,51) based on amount of blur desired
+    blur_image = cv2.GaussianBlur(roi,(51,51),0)
+    img[blur_y:blur_y+blur_height, blur_x:blur_x+blur_width] = blur_image
+    ## draw/place bounding boxes on image
+    #start_point = (int(x0), int(y0))
+    #end_point = (int(x1), int(y1))
+    #cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=2)
 
     (text_width, text_height), _ = cv2.getTextSize(
         f"{class_name} | {confidence}",
