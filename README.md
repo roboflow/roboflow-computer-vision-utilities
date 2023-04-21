@@ -19,7 +19,8 @@ Key features of Roboflow:
   to [production](https://docs.roboflow.com/inference)
 - Use [community curated projects](https://universe.roboflow.com/) to start building your own vision-powered products
 
-[Available Plans & Features](https://roboflow.com/pricing)
+#### Available Plans & Features
+https://roboflow.com/pricing
 
 Personal and Research Projects - Applying for Additional Account Features:
 * https://roboflow.com/community
@@ -27,7 +28,7 @@ Personal and Research Projects - Applying for Additional Account Features:
 Business Projects and POC's - Requesting Additional Account Features:
 * https://roboflow.com/sales
 
-Popular Repositories and Learning Resources:
+#### Popular Repositories and Learning Resources:
 
 • [Roboflow Python SDK](https://github.com/notebooks) • [Notebooks](https://github.com/notebooks) (Custom Model Training Tutorials) • [Learn Computer Vision](https://roboflow.com/learn) • [Supervision](https://universe.roboflow.com) • [Polygon Zone](https://universe.roboflow.com) •
 
