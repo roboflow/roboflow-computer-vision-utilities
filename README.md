@@ -1,5 +1,5 @@
 # roboflow-computer-vision-utilities
-Interface with the Roboflow API and Python package for running inference (receiving predictions) from your Roboflow Train computer vision models.
+Interface with the Roboflow API and Python SDK for running inference (receiving predictions) with AutoML and custom-trained models compatible with Roboflow Deploy.
 
 ![Roboflow Logo](/figures/roboflow-cv-utilities-header.png)
 
@@ -98,6 +98,8 @@ Conditionals - Source Code:
 * `roboflow-python/roboflow/util/active_learning_utils.py`: [![GitHub](https://badges.aleen42.com/src/github.svg)](https://github.com/roboflow/roboflow-python/blob/main/roboflow/util/active_learning_utils.py)
 * `roboflow-python/roboflow/core/workspace.py` Line 245: [![GitHub](https://badges.aleen42.com/src/github.svg)](https://github.com/roboflow/roboflow-python/blob/02b717f453e95c5cdef8a817914a46f5fd6771a8/roboflow/core/workspace.py#L245)
 ```
+# set the conditionals values as necessary for your active learning needs
+# NOTE - not all conditional fields are required
 conditionals = {
     "required_objects_count" : 1,
     "required_class_count": 1,
@@ -153,43 +155,7 @@ The app will work as-is for inference on individual image files (png, jpeg, jpg 
 The app was created using [Roboflow](https://roboflow.com) and [Streamlit](https://streamlit.io/).
 
 ## Example Code Snippets
-Run model inference on a single image file:
-```
-# perform inference on the selected local image file
-file_location = "YOUR_IMAGE.jpg"
-predictions = model.predict(file_location, confidence=40, overlap=30)
-
-# save prediction image
-predictions.save(f'inferenceResult_{os.path.basename(img_file)}')
-predictions_json = predictions.json()
-print(predictions_json)
-
-# perform inference on the selected HOSTED image file
-file_location = "https://www.yourimageurl.com"
-prediction_hosted = model.predict(file_location, confidence=40,overlap=30, hosted=True)
-
-# save prediction image
-predictions_hosted.save(f'inferenceResult_{file_location.split('www.')[1]}')
-predictions_hosted_json = predictions_hosted.json()
-print(predictions_hosted_json)
-```
-Run model inference on a folder (directory) of image files:
-```
-raw_data_location = "INSERT_PATH_TO_IMG_DIRECTORY"
-for raw_data_extension in ['.jpg', '.jpeg', 'png']:
-## using the following line for raw_data_externsion results in inference on
-## specified file types only
-  raw_data_extension = ".jpg" # e.g jpg, jpeg, png
-  globbed_files = glob.glob(raw_data_location + '/*' + raw_data_extension)
-  for img_path in globbed_files:
-      predictions = model.predict(img_path, confidence=40, overlap=30)
-
-      # save prediction image
-      predictions.save(f'inferenceResult_{os.path.basename(img_path)}')
-      predictions_json = predictions.json()
-      print(predictions_json)
-```
-Single image file:
+#### Receive model predictions from a single image file:
 ```
 img_path = 'INSERT_PATH_TO_IMG' # .jpg, .jpeg, .png
 img = cv2.imread(img_path)
@@ -198,7 +164,7 @@ img = cv2.imread(img_path)
 predictions = model.predict(img_path, confidence=40,
     overlap=30)
 ```
-Folder/directory with image files:
+#### Receive model predictions from images contained in a folder (directory):
 ```
 raw_data_location = "INSERT_PATH_TO_DIRECTORY"
 
@@ -211,7 +177,7 @@ for raw_data_extension in ['.jpg', '.jpeg', 'png']:
       img = cv2.imread(img_path)
       predictions = model.predict(img_path, confidence=40, overlap=30)
 ```
-Drawing Bounding Boxes
+#### Drawing Bounding Boxes
 ```
 # main bounding box coordinates from JSON response object
 # https://docs.roboflow.com/inference/hosted-api#response-object-format
@@ -226,9 +192,23 @@ y1 = bounding_box['y'] + bounding_box['height'] / 2
 # draw and place bounding boxes
 start_point = (int(x0), int(y0))
 end_point = (int(x1), int(y1))
+
 cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=2)
 ```
-Drawing "Filled" Bounding Boxes:
+#### Writing and Placing Text:
+```
+# write and place text
+cv2.putText(
+    img, # PIL.Image object to place text on
+    'placeholder text',#text to place on image
+    (12, 12),#location of text in pixels
+    fontFace = cv2.FONT_HERSHEY_SIMPLEX, #text font
+    fontScale = 0.6,#font scale
+    color = (255, 255, 255),#text color in RGB
+    thickness=2#thickness/"weight" of text
+    )
+```
+#### Drawing "Filled" Bounding Boxes:
 ```
 # main bounding box coordinates from JSON response object
 # https://docs.roboflow.com/inference/hosted-api#response-object-format
@@ -247,7 +227,7 @@ end_point = (int(x1), int(y1))
 # setting thickness to -1 --> filled bounding box with the specified color
 cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=-1)
 ```
-Blurring the Contents of Bounding Boxes:
+#### Blurring the Contents of Bounding Boxes:
 ```
 # rip bounding box coordinates from current detection
 # note: infer returns center points of box as (x,y) and width, height
@@ -270,9 +250,8 @@ roi = img[blur_y:blur_y+blur_height, blur_x:blur_x+blur_width]
 blur_image = cv2.GaussianBlur(roi,(51,51),0)
 img[blur_y:blur_y+blur_height, blur_x:blur_x+blur_width] = blur_image
 ```
-Cropping the Contents of Bounding Boxes:
+#### Cropping the Contents of Bounding Boxes:
 ```
-
 for bounding_box in predictions:
   # defining crop area [height_of_cropArea:width_of_cropArea]
   # croppedArea = img[start_row:end_row, start_col:end_col]
@@ -304,17 +283,4 @@ for bounding_box in predictions:
   # SAVE CROPPED IMAGES
   cv2.imwrite(f'crop{i}_' + os.path.basename(img_path), croppedArea)
   i+=1
-```
-Writing and Placing Text:
-```
-# write and place text
-cv2.putText(
-    img, # PIL.Image object to place text on
-    'placeholder text',#text to place on image
-    (12, 12),#location of text in pixels
-    fontFace = cv2.FONT_HERSHEY_SIMPLEX, #text font
-    fontScale = 0.6,#font scale
-    color = (255, 255, 255),#text color in RGB
-    thickness=2#thickness/"weight" of text
-    )
 ```
