@@ -116,7 +116,7 @@ def drawBoxes(model_object, img_object, uploaded_file, show_bbox, show_class_lab
             blur_y = int(bounding_box['y'] - bounding_box['height'] / 2)
             blur_width = int(bounding_box['width'])
             blur_height = int(bounding_box['height'])
-            # region of interest (ROI), or area to blur
+            ## region of interest (ROI), or area to blur
             roi = img[blur_y:blur_y+blur_height, blur_x:blur_x+blur_width]
 
             # ADD BLURRED BBOXES

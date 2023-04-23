@@ -4,7 +4,7 @@ import os
 
 
 rf = Roboflow(api_key="INSERT_PRIVATE_API_KEY")
-project = rf.workspace("INSERT-WORKSPACE-ID").project("INSERT-PROJECT/MODEL-ID")
+project = rf.workspace("INSERT-WORKSPACE-ID").project("INSERT-PROJECT-ID")
 # REPLACE VERSION-NUMBER with (trained) model version number
 version = project.version(1)
 model = version.model

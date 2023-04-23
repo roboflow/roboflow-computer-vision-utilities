@@ -1,53 +1,98 @@
-from roboflow import Roboflow
-import cv2
 import os
+import json
+import cv2
+import numpy as np
+import supervision as sv
+from roboflow import Roboflow
 
 
-rf = Roboflow(api_key="INSERT_PRIVATE_API_KEY")
-project = rf.workspace("INSERT-WORKSPACE-ID").project("INSERT-PROJECT/MODEL-ID")
-# REPLACE VERSION-NUMBER with (trained) model version number
-version = project.version(1)
-model = version.model
+def load_roboflow_model(api_key, workspace_id, project_id, version_number):
 
-# perform inference on the selected local image file
-file_location = "YOUR_IMAGE.jpg"
-predictions = model.predict(file_location, confidence=40, overlap=30)
-## save prediction image - roboflow python sdk
-# predictions.save(f'inferenceResult_{os.path.basename({file_location})}')
-predictions_json = predictions.json()
-print(predictions_json)
-
-# drawing bounding boxes with the Pillow library
-# https://docs.roboflow.com/inference/hosted-api#response-object-format
-img = cv2.imread(file_location)
-for bounding_box in predictions:
-    x0 = bounding_box['x'] - bounding_box['width'] / 2
-    x1 = bounding_box['x'] + bounding_box['width'] / 2
-    y0 = bounding_box['y'] - bounding_box['height'] / 2
-    y1 = bounding_box['y'] + bounding_box['height'] / 2
-    class_name = bounding_box['class']
-    confidence = bounding_box['confidence']
-    box = (x0, x1, y0, y1)
-    # position coordinates: start = (x0, y0), end = (x1, y1)
-    # color = RGB-value for bounding box color, (0,0,0) is "black"
-    # thickness = stroke width/thickness of bounding box
-    start_point = (int(x0), int(y0))
-    end_point = (int(x1), int(y1))
-
-    # draw/place bounding boxes on image
-    cv2.rectangle(img, start_point, end_point, color=(0,0,0), thickness=2)
-
-    (text_width, text_height), _ = cv2.getTextSize(
-        f"{class_name} | {confidence}",
-        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, thickness=2)
-
-    cv2.rectangle(img, (int(x0), int(y0)), (int(x0) + text_width, int(y0) - text_height), color=(0,0,0),
-        thickness=-1)
+    # authenticate to your Roboflow account and load your model
+    rf = Roboflow(api_key=api_key)
+    project = rf.workspace(workspace_id).project(project_id)
+    version = project.version(version_number)
+    model = version.model
     
-    text_location = (int(x0), int(y0))
-    
-    cv2.putText(img, f"{class_name} | {confidence}",
-                text_location, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7,
-                color=(255,255,255), thickness=2)
+    return project, model
 
-    cv2.imwrite(f'inferenceResult_{os.path.basename({file_location})}', img)
+def make_prediction(project, model, image_path, confidence, overlap):
+
+    # load the image and make predictions with your model
+    img = cv2.imread(image_path)
+    predictions = model.predict(image_path, confidence=confidence, overlap=overlap)
+    predictions_json = predictions.json()
+    roboflow_xyxy = np.empty((0, 4))
+    predicted_classes = []
+    for bounding_box in predictions:
+        x1 = bounding_box['x'] - bounding_box['width'] / 2
+        x2 = bounding_box['x'] + bounding_box['width'] / 2
+        y1 = bounding_box['y'] - bounding_box['height'] / 2
+        y2 = bounding_box['y'] + bounding_box['height'] / 2
+        np.vstack((roboflow_xyxy, [x1, y1, x2, y2]))
+        predicted_classes.append(bounding_box['class'])
+        
+        # class_name = bounding_box['class']
+        # confidence = bounding_box['confidence']
+        sv_xyxy = sv.Detections(roboflow_xyxy).from_roboflow(
+            predictions_json,class_list=list((project.classes).keys()))
+
+    return img, predictions_json, sv_xyxy, predicted_classes
+
+def draw_bounding_boxes(image, sv_xyxy, class_ids, add_labels):
+
+    #set add_labels to True to show the label for each object
+    image_with_boxes = sv.BoxAnnotator().annotate(image, sv_xyxy, labels=class_ids, skip_label=add_labels)
+
+    return image_with_boxes
+
+def save_image(image, original_image_path, output_directory="results"):
+
+    os.makedirs(output_directory, exist_ok=True)
+    filename = os.path.basename(original_image_path)
+    output_path = os.path.join(output_directory, f"result_{filename}")
+    cv2.imwrite(output_path, image)
+
+    return output_path
+
+def main():
+    ## Authentication info to load the model. The config file is located at ../roboflow_config.json
+    ## Sample project: https://universe.roboflow.com/roboflow-universe-projects/construction-site-safety/model/25
+    ## Workspace ID: "roboflow-universe-projects", Project ID: "construction-site-safety", Version Number: 25
+    with open(os.pardir + '/roboflow_config.json') as f:
+        config = json.load(f)
+
+        ROBOFLOW_API_KEY = config["ROBOFLOW_API_KEY"]
+        ROBOFLOW_WORKSPACE_ID = config["ROBOFLOW_WORKSPACE_ID"]
+        ROBOFLOW_PROJECT_ID = config["ROBOFLOW_PROJECT_ID"]
+        ROBOFLOW_VERSION_NUMBER = config["ROBOFLOW_VERSION_NUMBER"]
+
+        f.close()
+    
+    api_key = ROBOFLOW_API_KEY
+    workspace_id = ROBOFLOW_WORKSPACE_ID
+    project_id = ROBOFLOW_PROJECT_ID
+    version_number = ROBOFLOW_VERSION_NUMBER
+    project, model = load_roboflow_model(api_key, workspace_id, project_id, version_number)
+
+    # Make a prediction on the specified image file
+    image_path = "/path/to/image.jpg"
+    confidence = 40
+    overlap = 30
+    image, predictions_json, pred_sv_xyxy, predicted_classes = make_prediction(
+        project, model, image_path, confidence, overlap)
+
+    print(predictions_json)
+
+    ## Set add_labels to False to draw class labels on the bounding boxes
+    add_labels = True
+    for i in range(len(pred_sv_xyxy)):
+        image_with_boxes = draw_bounding_boxes(image, pred_sv_xyxy, predicted_classes, add_labels)
+
+    # Save the image with bounding boxes for the detected objects drawn on them
+    output_path = save_image(image_with_boxes, image_path)
+
+    print(f"The image has been processed and saved to {output_path}")
+
+if __name__ == "__main__":
+    main()

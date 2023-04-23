@@ -1,8 +1,9 @@
 {
     "__comment1": "Obtain these values via Roboflow",
-    "ROBOFLOW_API_KEY": "xx-private-api-key",
-    "ROBOFLOW_WORKSPACE_ID": "xx-workspace-id",
-    "ROBOFLOW_MODEL_ID": "xx-model-id",
+    "ROBOFLOW_API_KEY": "private-api-key",
+    "ROBOFLOW_WORKSPACE_ID": "workspace-id",
+    "ROBOFLOW_PROJECT_ID": "project-id",
+    "ROBOFLOW_MODEL_ID": "model-id",
     "ROBOFLOW_VERSION_NUMBER": "#",
     "ROBOFLOW_SIZE": "640",
     "EMAIL": "your@email.com",

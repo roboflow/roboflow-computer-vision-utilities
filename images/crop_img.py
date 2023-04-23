@@ -113,7 +113,7 @@ with open(os.pardir + '/roboflow_config.json') as f:
 
     ROBOFLOW_API_KEY = config["ROBOFLOW_API_KEY"]
     ROBOFLOW_WORKSPACE_ID = config["ROBOFLOW_WORKSPACE_ID"]
-    ROBOFLOW_MODEL_ID = config["ROBOFLOW_MODEL_ID"]
+    ROBOFLOW_PROJECT_ID = config["ROBOFLOW_PROJECT_ID"]
     ROBOFLOW_VERSION_NUMBER = config["ROBOFLOW_VERSION_NUMBER"]
     ROBOFLOW_SIZE = config["ROBOFLOW_SIZE"]
 
@@ -123,7 +123,7 @@ with open(os.pardir + '/roboflow_config.json') as f:
 ## create Roboflow object: https://docs.roboflow.com/python
 rf = Roboflow(api_key=ROBOFLOW_API_KEY)
 workspace = rf.workspace(ROBOFLOW_WORKSPACE_ID)
-project = workspace.project(ROBOFLOW_MODEL_ID)
+project = workspace.project(ROBOFLOW_PROJECT_ID)
 version = project.version(ROBOFLOW_VERSION_NUMBER)
 model = version.model
 
