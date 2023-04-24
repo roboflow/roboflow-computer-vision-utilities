@@ -2,8 +2,12 @@ import os
 import json
 import cv2
 import numpy as np
-import supervision as sv
 from roboflow import Roboflow
+
+import supervision as sv
+from supervision.draw.color import Color
+from supervision.draw.color import ColorPalette
+from supervision import Detections, BoxAnnotator
 
 
 def load_roboflow_model(api_key, workspace_id, project_id, version_number):
@@ -34,7 +38,7 @@ def make_prediction(project, model, image_path, confidence, overlap):
         
         # class_name = bounding_box['class']
         # confidence = bounding_box['confidence']
-        sv_xyxy = sv.Detections(roboflow_xyxy).from_roboflow(
+        sv_xyxy = Detections(roboflow_xyxy).from_roboflow(
             predictions_json,class_list=list((project.classes).keys()))
 
     return img, predictions_json, sv_xyxy, predicted_classes
@@ -42,7 +46,8 @@ def make_prediction(project, model, image_path, confidence, overlap):
 def draw_bounding_boxes(image, sv_xyxy, class_ids, add_labels):
 
     #set add_labels to True to show the label for each object
-    image_with_boxes = sv.BoxAnnotator().annotate(image, sv_xyxy, labels=class_ids, skip_label=add_labels)
+    image_with_boxes = BoxAnnotator(
+        color=ColorPalette.default(), thickness=2).annotate(image, sv_xyxy, labels=class_ids, skip_label=add_labels)
 
     return image_with_boxes
 
