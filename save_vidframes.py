@@ -45,7 +45,8 @@ def main(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="sampling videos by a specified frames per second of video.")
-    parser.add_argument("video_path", type=str, help="Path to the video file.")
+    parser.add_argument("--video_path", type=str, help="Path to the video file.")
+    parser.add_argument("--active_learning", type=str, help="Path to the video file.")
     parser.add_argument("--raw_data_location", type=str, default=f"{os.curdir}", help="Location to save frames.")
     parser.add_argument("--raw_data_extension", type=str, default=".jpg", help="Image extension for saved frames.")
     parser.add_argument("--fps", type=int, default=1, help="Frames per second to sample from the video.")
@@ -54,12 +55,14 @@ if __name__ == "__main__":
 
     main(
         args.video_path,
+        args.active_learning,
         args.raw_data_location,
         args.raw_data_extension,
         args.fps,
     )
 ## Example below for how to run the file (remove the comment from each line below, prior to copy/paste to your Terminal)
-# python3 sample_vidframes.py --video_path="/Downloads/mohamed-1920x1080.mp4" \
-# --raw_data_location="/Users/roboflowtest/Downloads/active_learning_infer" \
+# python3 save_vidframes.py --video_path="/path/to/video.mp4" \
+# --active_learning=True \
+# --raw_data_location="/path/to/save/video/frames" \
 # --raw_data_extension=".jpg" \
-# --fps=2
+# --fps=5
